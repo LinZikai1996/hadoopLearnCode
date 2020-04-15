@@ -20,7 +20,7 @@ public class hdfsClient {
         System.out.println("before");
         //获取一个HDFS的抽象封装对象
         fileSystem = FileSystem.get(
-                URI.create("hdfs://hadoop001:9000"),
+                URI.create("hdfs://hadoop100:9000"),
                 new Configuration(),
                 "hadoop");
 
@@ -30,7 +30,7 @@ public class hdfsClient {
     public void put() throws IOException, InterruptedException {
 
         //用这个对象操作文件系统
-        fileSystem.copyFromLocalFile(new Path("src/main/resources/1.txt"),new Path("/"));
+        fileSystem.copyFromLocalFile(new Path("src/main/resources/wordCount.txt"),new Path("/"));
 
         //关闭文件系统
         fileSystem.close();
