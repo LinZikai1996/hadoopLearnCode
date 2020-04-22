@@ -1,4 +1,4 @@
-package com.hadoop.mapreduce;
+package com.hadoop.mapreduce.flow;
 
 import org.apache.hadoop.io.Writable;
 
