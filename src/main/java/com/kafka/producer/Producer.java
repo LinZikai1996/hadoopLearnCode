@@ -1,43 +1,51 @@
 package com.kafka.producer;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.StringSerializer;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
+import java.util.Scanner;
 
 public class Producer {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         //1 properties
-
-        Properties properties = new Properties();
-
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "hadoop102:9092");
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-
-        properties.put(ProducerConfig.ACKS_CONFIG, "all");
-        properties.put(ProducerConfig.LINGER_MS_CONFIG, 1);
+        Properties properties = ProducerProperties.getProperties();
 
         //2 create producer
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<String, String>(properties);
 
-        //3 use send function
+        //3 read source data from CSV
+        List<String> data = ReadSourceData.readData("src\\main\\resources\\events.csv");
 
-        for (int i = 0 ; i < 1000 ; i++){
-            kafkaProducer.send(new ProducerRecord<String, String>("test",i+"", "message-" + i), (metadata,exception)->{
-                if (exception==null){
-                    System.out.println("success");
-                }else{
-                    exception.printStackTrace();
-                }
-            });
+        //4 check data and consumer function
+        String flag = "N";
+        System.out.println("consumer function is readily?");
+        Scanner scanner = new Scanner(System.in);
+        while (flag.equals("N")){
+            flag = scanner.nextLine();
+            System.out.println("data size = " + data.size());
         }
 
-        //4 close
+        //5 use send function
+        for (int i = 1 ; i < data.size() ; i++){
+            kafkaProducer.send(new ProducerRecord<String, String>(
+                    "test",
+                    i+"",
+                    data.get(i)),
+                    (metadata,exception)->{
+                        if (exception==null){
+                            System.out.println("success");
+                        }else{
+                            exception.printStackTrace();
+                        }
+                    });
+        }
+
+        //6 close
         kafkaProducer.close();
     }
 }

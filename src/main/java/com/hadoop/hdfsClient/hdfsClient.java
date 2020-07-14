@@ -30,7 +30,7 @@ public class hdfsClient {
     public void put() throws IOException, InterruptedException {
 
         //用这个对象操作文件系统
-        fileSystem.copyFromLocalFile(new Path("src/main/resources/wordCount.txt"),new Path("/"));
+        fileSystem.copyFromLocalFile(new Path("C:\\Users\\Zikai\\Documents\\Tencent Files\\835163838\\FileRecv\\tianchi_mobile_recommend_train_user.csv"),new Path("/landing/event/part_date=2020-06-06/"));
 
         //关闭文件系统
         fileSystem.close();
@@ -48,7 +48,7 @@ public class hdfsClient {
 
     @Test
     public void delete() throws IOException {
-        boolean result =  fileSystem.delete(new Path("/3.txt"),true);
+        boolean result =  fileSystem.delete(new Path("/landing/event/part_date=2020-06-06/tianchi_mobile_recommend_train_user.csv"),true);
         if (result){
             System.out.println("delete is ok");
         } else {
@@ -96,6 +96,11 @@ public class hdfsClient {
                 }
             }
         }
+    }
+
+    @Test
+    public void readList() throws IOException{
+
     }
 
     @After

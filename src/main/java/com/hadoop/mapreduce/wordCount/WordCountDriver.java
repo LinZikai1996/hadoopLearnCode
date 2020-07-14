@@ -25,6 +25,7 @@ public class WordCountDriver {
 
         // 3 set mapper and reducer
         job.setMapperClass(WordCountMapper.class);
+        job.setReducerClass(WordCountReducer.class);
 
         // 4 set mapper and reducer out class
         job.setMapOutputKeyClass(Text.class);
